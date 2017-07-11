@@ -1,12 +1,18 @@
-# Описани
+# Описание
 
-Bitrix CLI
+Bitrix CLI - набор инструментов командной строки для администрирования Bitrix.
 
-# Принципы
+В основе - [философия unix](https://ru.wikipedia.org/wiki/%D0%A4%D0%B8%D0%BB%D0%BE%D1%81%D0%BE%D1%84%D0%B8%D1%8F_UNIX).
 
-[Использование философии unix](https://ru.wikipedia.org/wiki/%D0%A4%D0%B8%D0%BB%D0%BE%D1%81%D0%BE%D1%84%D0%B8%D1%8F_UNIX)
+Для запуска необходимо наличие PHP. Путь к PHP передается через окружение:
 
-## Составные части программы
+```
+export BITRIX_CLI_PHP="/usr/bin/php7"
+```
+
+Если не передавать - используется PHP по-умолчанию (`which php`).
+
+# Составные части программы
 
 * `bitrix-element`, `bitrix-section`, `bitrix-iblock` - работа с инфоблоками: поиск, вывод содержимого, свойств инфоблока
 * `bitrix-component` - компоненты: поиск в файле

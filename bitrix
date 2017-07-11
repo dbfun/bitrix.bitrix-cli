@@ -1,0 +1,46 @@
+#!/bin/bash
+
+
+if [[ ! -z "$BITRIX_CLI_PHP" ]]; then
+  PHP="$BITRIX_CLI_PHP"
+else
+  PHP=`which php`
+  if [[ "$?" != "0" ]]; then
+    echo "PHP not found"
+    exit 1
+  fi
+fi
+
+case $1 in
+  element)
+    # передаем все аргументы, кроме первого
+    $PHP "$(dirname "$0")"/bitrix-iblock.php "${@:1}"
+  ;;
+  section)
+    $PHP "$(dirname "$0")"/bitrix-iblock.php "${@:1}"
+  ;;
+  iblock)
+    $PHP "$(dirname "$0")"/bitrix-iblock.php "${@:1}"
+  ;;
+  component)
+    $PHP "$(dirname "$0")"/bitrix-component.php "${@:1}"
+  ;;
+  error)
+    $PHP "$(dirname "$0")"/bitrix-error.php "${@:1}"
+  ;;
+  event)
+    $PHP "$(dirname "$0")"/bitrix-event.php "${@:1}"
+  ;;
+  user)
+    $PHP "$(dirname "$0")"/bitrix-user.php "${@:1}"
+  ;;
+  file)
+    $PHP "$(dirname "$0")"/bitrix-file.php "${@:1}"
+  ;;
+  option)
+    $PHP "$(dirname "$0")"/bitrix-option.php "${@:1}"
+  ;;
+  *)
+    echo 'Command not found'
+    exit 1
+esac
