@@ -6,23 +6,44 @@ class DataView {
 
   private $data;
   public function __construct($data) {
+    switch(true) {
+      case is_array($data):
+        $data = !defined('LANG_CHARSET') || LANG_CHARSET == 'UTF-8' ? $data : $this->iconvArray(LANG_CHARSET, 'utf-8', $data);
+        break;
+    }
     $this->data = $data;
   }
 
-  public function showVar($format = null) {
-    $var = !defined('LANG_CHARSET') || LANG_CHARSET == 'UTF-8' ? $this->data : $this->iconvArray(LANG_CHARSET, 'utf-8', $this->data);
+  public function view($format) {
     switch($format) {
+      case 'var_dump':
+        $this->var_dump();
+        break;
+      case 'var_export':
+        $this->var_export();
+        break;
       case 'letter':
-        $var = (array)$var;
-        foreach($var as $v) {
-          echo $v['ID'] . ' > ' . $v['EVENT_NAME'].PHP_EOL;
-          echo implode(PHP_EOL, $v['C_FIELDS']);
-          echo PHP_EOL.PHP_EOL;
-        }
+        $this->letter();
         break;
       default:
-        var_dump($var);
+        throw new Exception("No such view format", 1);
     }
+  }
+
+  protected function letter() {
+    echo $this->data['ID'] . ' > ' . $this->data['EVENT_NAME'].PHP_EOL;
+    echo implode(PHP_EOL, $this->data['C_FIELDS']);
+    echo PHP_EOL.PHP_EOL;
+  }
+
+  protected function var_dump() {
+    var_dump($this->data);
+    echo PHP_EOL;
+  }
+
+  protected function var_export() {
+    var_export($this->data);
+    echo PHP_EOL;
   }
 
   protected function iconvArray($charset_from, $charset_to, $arData) {

@@ -9,12 +9,22 @@ namespace Bitrixcli;
 
 require(__DIR__ . '/lib/cli-cms.php');
 
-
 class ElementCli extends BitrixCli {
 
   protected $ids = array(), $item, $isHistory;
+  public static $cliParams = array(
+    'noVal' // без значения
+      => array(),
+    'val' // со значением
+      => array('i' => 'ID', 'v' => 'view', 'f' => 'format'),
+    'optionVal' // с необязательным значением
+      => array(),
+  )
+  ;
+
   public function __construct() {
     if(!\CModule::IncludeModule('iblock')) throw new Exception("Can not include iblock");
+    parent::__construct();
   }
 
   public function run() {
@@ -26,12 +36,24 @@ class ElementCli extends BitrixCli {
     }
   }
 
+  protected function getParms() {
+    $ids = $this->getCliIdParms();
+    $this->ids = array_merge($this->ids, $ids);
+
+    $ids = $this->getStdinIntParms();
+    $this->ids = array_merge($this->ids, $ids);
+
+    $this->ids = array_filter(array_unique($this->ids));
+    if(count($this->ids) == 0) throw new Exception("No ids", 1);
+  }
+
   protected function outputElements() {
     foreach($this->ids as $id) {
       $this->getElement($id);
       if(isset($this->item)) {
         $DataView = new DataView($this->item);
-        $DataView->showVar();
+        $view = $this->getViewFormat();
+        $DataView->view($view);
       }
     }
   }
@@ -56,17 +78,6 @@ class ElementCli extends BitrixCli {
     } else {
       $this->item = $rs->Fetch();
     }
-  }
-
-  protected function getParms() {
-    $ids = $this->getCliIdParms();
-    $this->ids = array_merge($this->ids, $ids);
-
-    $ids = $this->getStdinIntParms();
-    $this->ids = array_merge($this->ids, $ids);
-
-    $this->ids = array_filter(array_unique($this->ids));
-    if(count($this->ids) == 0) throw new Exception("No ids", 1);
   }
 
 }
