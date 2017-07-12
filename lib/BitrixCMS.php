@@ -10,8 +10,15 @@ class BitrixCMS {
   }
 
   public function getConfig() {
+    if(isset($this->config)) return $this->config;
+    $this->config = include($this->configFile);
+    return $this->config;
+  }
+
+  public function init() {
     $this->findrootDir($this->dir);
-    $this->loadBitrixConfig();
+    $_SERVER["DOCUMENT_ROOT"] = $this->rootDir;
+    return $this;
   }
 
   public function getRootDir() {
@@ -30,8 +37,6 @@ class BitrixCMS {
     return $this->findrootDir(dirname($dir));
   }
 
-  protected function loadBitrixConfig() {
-    $this->config = include($this->configFile);
-  }
+
 
 }

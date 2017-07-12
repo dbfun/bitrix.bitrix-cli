@@ -40,6 +40,9 @@ case $1 in
   option)
     $PHP "$(dirname "$0")"/bitrix-option.php "${@:2}"
   ;;
+  db)
+    $PHP "$(dirname "$0")"/bitrix-db.php "${@:2}"
+  ;;
   *)
     echo 'Command not found'
     exit 1

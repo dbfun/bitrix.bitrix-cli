@@ -28,9 +28,52 @@ class DataView {
       case 'letter':
         $this->letter();
         break;
+      case 'iblock':
+        $this->iblock();
+        break;
+      case 'file':
+        $this->file();
+        break;
+      case 'component':
+        $this->component();
+        break;
+      case 'db':
+        $this->db();
+        break;
       default:
         throw new Exception("No such view format", 1);
     }
+  }
+
+  protected function db() {
+    echo sprintf("mysql:dbname=%s;host=%s\nlogin: '%s'\npassword: '%s'\noptions: %s",
+      $this->data['database'],
+      $this->data['host'],
+      $this->data['login'],
+      $this->data['password'],
+      $this->data['options']
+      );
+   echo PHP_EOL;
+  }
+
+  protected function component() {
+    echo sprintf("%s\n%s", $this->data['file'], implode(', ', $this->data['component']));
+    echo PHP_EOL;
+  }
+
+  protected function iblock() {
+    echo sprintf("[%d] %s\nACTIVE: %s\nELEMENT_CNT: %d\nLIST_PAGE_URL: %s",
+      $this->data['ID'], $this->data['NAME'],
+      $this->data['ACTIVE'], $this->data['ELEMENT_CNT'], $this->data['LIST_PAGE_URL']
+    );
+    echo PHP_EOL . PHP_EOL;
+  }
+
+  protected function file() {
+    echo sprintf("[%d] %s\nFILE_NAME: %s\nFILE_SIZE: %d\nCONTENT_TYPE: %s\nTIMESTAMP_X: %s",
+      $this->data['ID'], $this->data['SRC'], $this->data['FILE_NAME'], $this->data['FILE_SIZE'], $this->data['CONTENT_TYPE'], $this->data['TIMESTAMP_X']
+    );
+    echo PHP_EOL . PHP_EOL;
   }
 
   protected function id() {

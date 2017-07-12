@@ -70,6 +70,12 @@ abstract class BitrixCli {
     return $ids;
   }
 
+  protected function getStdinStrParms() {
+    $params = $this->getStdinParms();
+    $ids = $this->getStrParamList($params);
+    return $ids;
+  }
+
   protected function getViewFormat() {
     return $this->viewFormat;
   }
@@ -115,6 +121,14 @@ abstract class BitrixCli {
       } else {
         $this->warning($val . ' is not valid numeric value');
       }
+    }
+    return $ret;
+  }
+
+  protected function getStrParamList(array $list) {
+    $ret = array();
+    if(count($list) > 0) foreach($list as $val) {
+      $ret[] = (string)$val;
     }
     return $ret;
   }
