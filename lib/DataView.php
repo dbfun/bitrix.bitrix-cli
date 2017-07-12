@@ -22,12 +22,19 @@ class DataView {
       case 'var_export':
         $this->var_export();
         break;
+      case 'id':
+        $this->id();
+        break;
       case 'letter':
         $this->letter();
         break;
       default:
         throw new Exception("No such view format", 1);
     }
+  }
+
+  protected function id() {
+    echo $this->data['ID'] . PHP_EOL;
   }
 
   protected function letter() {

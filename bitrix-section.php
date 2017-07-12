@@ -1,7 +1,7 @@
 <?php
 
 /*
-Получение данных элементов из инфоблоков
+Получение данных секций из инфоблоков
 Указываются ID через STD_IN (с новой строки), и/или через перечисление в параметрах
 */
 
@@ -9,9 +9,9 @@ namespace Bitrixcli;
 
 require(__DIR__ . '/lib/cli-cms.php');
 
-class ElementCli extends BitrixCli {
+class SectionCli extends BitrixCli {
 
-  protected $ids = array(), $item, $isHistory;
+  protected $ids = array(), $item;
   public static $cliParams = array(
     'noVal' // без значения
       => array(),
@@ -49,36 +49,26 @@ class ElementCli extends BitrixCli {
 
   protected function outputElements() {
     foreach($this->ids as $id) {
-      $this->getElement($id);
+      $this->getSection($id);
       if(isset($this->item)) {
         $DataView = new DataView($this->item);
         $view = $this->getViewFormat();
         $DataView->view($view);
-        if($this->isHistory) {
-          $lastId = \CIBlockElement::WF_GetLast($id);
-          $this->warning(sprintf('Element has history: %d, CIBlockElement::WF_GetLast(): %d' . $id, $lastId));
-        }
       }
     }
   }
 
-  protected function getElement($id) {
+  protected function getSection($id) {
     unset($this->item);
-    $this->isHistory = false;
 
     $arSort = array('SORT' => 'ASC');
     $arSelect = array('*');
     $arNavStartParams = false;
 
-    $arFilter = array('ID' => $id);
-    $rs = \CIBlockElement::GetList($arSort, $arFilter, false, $arNavStartParams, $arSelect);
+    $arFilter = array('id' => $id);
+    $rs = \CIBlockSection::GetList($arSort, $arFilter, $bIncCnt = true, $arSelect, $arNavStartParams);
     if($rs->SelectedRowsCount() == 0) {
-      $this->isHistory = true;
-      $arFilter['SHOW_NEW'] = 'Y';
-      $rs = \CIBlockElement::GetList($arSort, $arFilter, false, $arNavStartParams, $arSelect);
-    }
-    if($rs->SelectedRowsCount() == 0) {
-      $this->warning('Can not find element with id: ' . $id);
+      $this->warning('Can not find section by ID: ' . $id);
     } else {
       $this->item = $rs->Fetch();
     }
@@ -86,5 +76,5 @@ class ElementCli extends BitrixCli {
 
 }
 
-$ElementCli = new ElementCli();
-$ElementCli->run();
+$SectionCli = new SectionCli();
+$SectionCli->run();
