@@ -19,3 +19,7 @@ define("LANGUAGE_ID", "ru"); // TODO заполнять из параметро�
 define("NO_KEEP_STATISTIC", true);
 define("NOT_CHECK_PERMISSIONS", true);
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
+
+// Выводим ошибки
+// TODO сделать вывод ошибок опционально
+error_reporting(E_ALL & ~E_NOTICE & ~E_STRICT);

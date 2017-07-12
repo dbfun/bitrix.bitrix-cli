@@ -14,31 +14,31 @@ fi
 case $1 in
   element)
     # передаем все аргументы, кроме первого
-    $PHP "$(dirname "$0")"/bitrix-iblock.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-element.php "${@:2}"
   ;;
   section)
-    $PHP "$(dirname "$0")"/bitrix-iblock.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-section.php "${@:2}"
   ;;
   iblock)
-    $PHP "$(dirname "$0")"/bitrix-iblock.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-iblock.php "${@:2}"
   ;;
   component)
-    $PHP "$(dirname "$0")"/bitrix-component.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-component.php "${@:2}"
   ;;
   error)
-    $PHP "$(dirname "$0")"/bitrix-error.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-error.php "${@:2}"
   ;;
   event)
-    $PHP "$(dirname "$0")"/bitrix-event.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-event.php "${@:2}"
   ;;
   user)
-    $PHP "$(dirname "$0")"/bitrix-user.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-user.php "${@:2}"
   ;;
   file)
-    $PHP "$(dirname "$0")"/bitrix-file.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-file.php "${@:2}"
   ;;
   option)
-    $PHP "$(dirname "$0")"/bitrix-option.php "${@:1}"
+    $PHP "$(dirname "$0")"/bitrix-option.php "${@:2}"
   ;;
   *)
     echo 'Command not found'
