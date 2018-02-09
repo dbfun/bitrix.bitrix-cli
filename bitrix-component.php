@@ -22,8 +22,8 @@ class OptionCli extends BitrixCli {
   )
   ;
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($BitrixCMS) {
+    parent::__construct($BitrixCMS);
   }
 
   public function run() {
@@ -49,17 +49,26 @@ class OptionCli extends BitrixCli {
     $files = $this->getStdinStrParms();
     $this->files = array_merge($this->files, $files);
 
-    if(count($this->files) == 0) throw new Exception('No files', 1);
+    if(count($this->files) == 0) {
+      try {
+        $file = getcwd() . '/index.php';
+        if(!file_exists($file)) throw new Exception('No files', 1);
+        $this->files = [$file];
+      } catch (Exception $e) {
+
+      }
+
+
+    }
   }
 
   protected $viewFormat = 'component';
   protected function outputElements() {
+    $view = $this->getViewFormat();
     foreach($this->files as $file) {
       $this->getFile($file);
-
       if(isset($this->item)) {
         $DataView = new DataView($this->item);
-        $view = $this->getViewFormat();
         $DataView->view($view);
       }
     }
@@ -93,5 +102,5 @@ class OptionCli extends BitrixCli {
 
 }
 
-$OptionCli = new OptionCli();
+$OptionCli = new OptionCli($BitrixCMS);
 $OptionCli->run();

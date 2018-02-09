@@ -10,7 +10,7 @@ require(__DIR__ . '/lib/cli-cms.php');
 
 class DbCli extends BitrixCli {
 
-  protected $BitrixCMS, $limit = 13, $isShowLogFileName = false;
+  protected $limit = 13, $isShowLogFileName = false;
   public static $cliParams = array(
     'noVal' // без значения
       => array(),
@@ -22,8 +22,7 @@ class DbCli extends BitrixCli {
   ;
 
   public function __construct($BitrixCMS) {
-    $this->BitrixCMS = $BitrixCMS;
-    parent::__construct();
+    parent::__construct($BitrixCMS);
   }
 
   public function run() {

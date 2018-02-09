@@ -22,9 +22,9 @@ class OptionCli extends BitrixCli {
   )
   ;
 
-  public function __construct() {
+  public function __construct($BitrixCMS) {
     die('TODO'); // передача модуля и опции
-    parent::__construct();
+    parent::__construct($BitrixCMS);
   }
 
   public function run() {
@@ -55,11 +55,11 @@ class OptionCli extends BitrixCli {
 
   protected $viewFormat = 'option';
   protected function outputElements() {
+    $view = $this->getViewFormat();
     foreach($this->options as $opt) {
       $this->getOpt($opt);
       if(isset($this->item)) {
         $DataView = new DataView($this->item);
-        $view = $this->getViewFormat();
         $DataView->view($view);
       }
     }
@@ -72,5 +72,5 @@ class OptionCli extends BitrixCli {
 
 }
 
-$OptionCli = new OptionCli();
+$OptionCli = new OptionCli($BitrixCMS);
 $OptionCli->run();

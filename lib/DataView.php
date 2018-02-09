@@ -14,13 +14,16 @@ class DataView {
     $this->data = $data;
   }
 
-  public function view($format) {
+  public function view($format, $BitrixCMS) {
     switch($format) {
       case 'var_dump':
         $this->var_dump();
         break;
       case 'var_export':
         $this->var_export();
+        break;
+      case 'json':
+        $this->json();
         break;
       case 'id':
         $this->id();
@@ -33,6 +36,9 @@ class DataView {
         break;
       case 'file':
         $this->file();
+        break;
+      case 'src':
+        $this->src($BitrixCMS);
         break;
       case 'component':
         $this->component();
@@ -76,6 +82,12 @@ class DataView {
     echo PHP_EOL . PHP_EOL;
   }
 
+  protected function src($BitrixCMS) {
+    $file = rtrim($BitrixCMS->getRootDir(), '/') . '/' . ltrim($this->data['SRC'], '/');
+    if(!file_exists($file)) throw new Exception("File not exists: " . $file, 1);
+    readfile($file);
+  }
+
   protected function id() {
     echo $this->data['ID'] . PHP_EOL;
   }
@@ -93,6 +105,11 @@ class DataView {
 
   protected function var_export() {
     var_export($this->data);
+    echo PHP_EOL;
+  }
+
+  protected function json() {
+    echo json_encode($this->data);
     echo PHP_EOL;
   }
 

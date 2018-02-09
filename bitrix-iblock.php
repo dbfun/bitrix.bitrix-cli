@@ -22,9 +22,9 @@ class SectionCli extends BitrixCli {
   )
   ;
 
-  public function __construct() {
+  public function __construct($BitrixCMS) {
     if(!\CModule::IncludeModule('iblock')) throw new Exception('Can not include iblock');
-    parent::__construct();
+    parent::__construct($BitrixCMS);
   }
 
   public function run() {
@@ -49,11 +49,11 @@ class SectionCli extends BitrixCli {
 
   protected $viewFormat = 'iblock';
   protected function outputElements() {
+    $view = $this->getViewFormat();
     foreach($this->ids as $id) {
       $this->getIblock($id);
       if(isset($this->item)) {
         $DataView = new DataView($this->item);
-        $view = $this->getViewFormat();
         $DataView->view($view);
       }
     }
@@ -75,5 +75,5 @@ class SectionCli extends BitrixCli {
 
 }
 
-$SectionCli = new SectionCli();
+$SectionCli = new SectionCli($BitrixCMS);
 $SectionCli->run();

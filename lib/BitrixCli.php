@@ -4,7 +4,9 @@ namespace Bitrixcli;
 
 abstract class BitrixCli {
 
-  public function __construct() {
+  protected $BitrixCMS;
+  public function __construct($BitrixCMS) {
+    $this->BitrixCMS = $BitrixCMS;
     $this->_getCliParms();
     $this->_getViewFormat();
   }
@@ -32,7 +34,13 @@ abstract class BitrixCli {
     'optionVal' => '::'
   );
 
-  // получаем параметры командной строки, распарсенные с использованием static::$cliParams
+  /**
+   * получаем параметры командной строки, распарсенные с использованием static::$cliParams
+   * 'noVal' - параметры не должны иметь значений
+   * 'val - параметр должен иметь значение
+   * 'optionVal' - параметр с необязательным значением
+   */
+
   protected function _getCliParms() {
     $cliParamsStrShort = '';
     $cliParamsStrLong = array();

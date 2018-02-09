@@ -22,9 +22,9 @@ class ElementCli extends BitrixCli {
   )
   ;
 
-  public function __construct() {
+  public function __construct($BitrixCMS) {
     if(!\CModule::IncludeModule('iblock')) throw new Exception('Can not include iblock');
-    parent::__construct();
+    parent::__construct($BitrixCMS);
   }
 
   public function run() {
@@ -48,11 +48,11 @@ class ElementCli extends BitrixCli {
   }
 
   protected function outputElements() {
+    $view = $this->getViewFormat();
     foreach($this->ids as $id) {
       $this->getElement($id);
       if(isset($this->item)) {
         $DataView = new DataView($this->item);
-        $view = $this->getViewFormat();
         $DataView->view($view);
         if($this->isHistory) {
           $lastId = \CIBlockElement::WF_GetLast($id);
@@ -86,5 +86,5 @@ class ElementCli extends BitrixCli {
 
 }
 
-$ElementCli = new ElementCli();
+$ElementCli = new ElementCli($BitrixCMS);
 $ElementCli->run();

@@ -22,8 +22,8 @@ class FileCli extends BitrixCli {
   )
   ;
 
-  public function __construct() {
-    parent::__construct();
+  public function __construct($BitrixCMS) {
+    parent::__construct($BitrixCMS);
   }
 
   public function run() {
@@ -48,12 +48,13 @@ class FileCli extends BitrixCli {
 
   protected $viewFormat = 'file';
   protected function outputElements() {
+    $view = $this->getViewFormat();
     foreach($this->ids as $id) {
       $this->getFile($id);
       if(isset($this->item)) {
         $DataView = new DataView($this->item);
-        $view = $this->getViewFormat();
-        $DataView->view($view);
+        // TODO переделать на Service Locator
+        $DataView->view($view, $this->BitrixCMS);
       }
     }
   }
@@ -68,5 +69,5 @@ class FileCli extends BitrixCli {
 
 }
 
-$FileCli = new FileCli();
+$FileCli = new FileCli($BitrixCMS);
 $FileCli->run();
